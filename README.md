@@ -23,4 +23,4 @@ There's not much to using the mod except for just loading it up and well... Dyin
 | tloudeath_deathsound | 1 | Play death sound? |
 | tloudeath_postprocess | 1 | Enable post processing effects? |
 | tloudeath_dsp | 1 | Enable sound DSP ("underwater" effect on all sounds) on blackout? |
-| tloudeath_altsound (WIP) | 1 | Enable alternate sound by U/GateCages? |
+| tloudeath_altsound (WIP) | 0 | Enable alternate sound by U/GateCages? |
