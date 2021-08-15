@@ -27,7 +27,7 @@ There's not much to using the mod except for just loading it up and well... Dyin
 
 ## Planned Features
 
-
+| --- | --- |
 | ❌ | Incomplete |
 | ✅ | Complete |
 
