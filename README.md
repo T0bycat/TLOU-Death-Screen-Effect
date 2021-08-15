@@ -24,3 +24,7 @@ There's not much to using the mod except for just loading it up and well... Dyin
 | `tloudeath_postprocess` | 1 | Enable post processing effects? |
 | `tloudeath_dsp` | 1 | Enable sound DSP ("underwater" effect on all sounds) on blackout? |
 | `tloudeath_altsound` (WIP) | 0 | Enable alternate sound by U/GateCages? (Be sure to set `tloudeath_deathsound 0` when having this set to 1, unless you like them being layered.) |
+
+## Planned Features
+
+- Post-Death hints [Video mockup](https://www.youtube.com/watch?v=f64z6Uhe-7o)
