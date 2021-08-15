@@ -27,10 +27,6 @@ There's not much to using the mod except for just loading it up and well... Dyin
 
 ## Planned Features
 
-| Symbol | Status |
+| Feature | Status |
 | --- | --- |
-| ❌ | Incomplete |
-| ✅ | Complete |
-
-
-- ❌ Post-Death hints [Video mockup](https://www.youtube.com/watch?v=f64z6Uhe-7o)
+| Death Screen Hints - [Mockup Video](https://www.youtube.com/watch?v=f64z6Uhe-7o) | Incomplete |
