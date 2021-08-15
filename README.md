@@ -27,4 +27,4 @@ There's not much to using the mod except for just loading it up and well... Dyin
 
 ## Planned Features
 
-- Post-Death hints [Video mockup](https://www.youtube.com/watch?v=f64z6Uhe-7o)
+- [] Post-Death hints [Video mockup](https://www.youtube.com/watch?v=f64z6Uhe-7o)
