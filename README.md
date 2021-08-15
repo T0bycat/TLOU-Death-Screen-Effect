@@ -30,3 +30,4 @@ There's not much to using the mod except for just loading it up and well... Dyin
 | Feature | Status |
 | --- | --- |
 | Death Screen Hints - [Mockup Video](https://www.youtube.com/watch?v=f64z6Uhe-7o) | Incomplete |
+| Less horrific method of switching between death sounds | Incomplete |
