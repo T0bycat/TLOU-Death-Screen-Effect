@@ -86,11 +86,6 @@ net.Receive("TLOUDEATH", function()
 		sound.PlayFile( "sound/tloudeath/tloudeath.wav", "", function( station, errCode, errStr )
 		end )
 	end
-
-	if tloudeathsoundalt:GetBool() then
-		sound.PlayFile( "sound/tloudeath/tloudeathalt.wav", "", function( station, errCode, errStr )
-		end )
-	end
 	
 end)
 
