@@ -1,8 +1,7 @@
 local tloudeathblackout = CreateClientConVar("tloudeath_blackouttime", 0.9, true, false, "How much time before the screen blacks out after dying", 0, 100)
-local tloudeathsound = CreateClientConVar("tloudeath_deathsound", 1, true, false, "Play the death sound?", 0, 1)
+local tloudeathsound = CreateClientConVar("tloudeath_deathsound", "", true, false, "What sound to play on death")
 local tloudeathpp = CreateClientConVar("tloudeath_postprocess", 1, true, false, "Enable post processing effects?", 0, 1)
 local tloudeathdsp = CreateClientConVar("tloudeath_dsp", 1, true, false, "Enable sound DSP on blackout?", 0, 1)
-local tloudeathsoundalt = CreateClientConVar("tloudeath_altsound", 0, true, false, "Enable the Alternate death sound? (Credit to u/GateCages)", 0, 1)
 
 hook.Add( "HUDShouldDraw", "RemoveThatShit", function( name ) 
     if ( name == "CHudDamageIndicator" ) then 
@@ -23,8 +22,11 @@ local function IsOnGround()
 	return grtr.Hit
 end 
 
-net.Receive("TLOUDEATH", function()
-	local ply = LocalPlayer()
+gameevent.Listen( "entity_killed" )
+
+hook.Add("entity_killed", "tloudeath_death", function(data)
+	if data.entindex_killed == LocalPlayer():EntIndex() then
+			local ply = LocalPlayer()
 	local randrot = math.Rand(-10,10)
 	local lastposfallback = ply:GetPos()
 	ply:SetDSP(16)
@@ -82,11 +84,14 @@ net.Receive("TLOUDEATH", function()
 		hook.Remove("RenderScreenspaceEffects", "TLOUDEATH_PP")
 	end)
 	
-	if tloudeathsound:GetBool() then
+	if tloudeathsound:GetString() == "" or not tloudeathsound:GetString() then
 		sound.PlayFile( "sound/tloudeath/tloudeath.wav", "", function( station, errCode, errStr )
 		end )
+	else
+		sound.PlayFile( "sound/"..tloudeathsound:GetString(), "", function( station, errCode, errStr )
+		end )
 	end
-	
+	end
 end)
 
 gameevent.Listen( "player_spawn" )
