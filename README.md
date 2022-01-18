@@ -21,11 +21,11 @@ There's not much to using the mod except for just loading it up and well... Dyin
 | `tloudeath_postprocess`  | 1             | Enable post processing effects?                                                                                         |
 | `tloudeath_dsp`          | 1             | Enable sound DSP ("underwater" effect on all sounds) on blackout?                                                       |
 
-## Incompatable Addons ❌
+## Addon Compatability
 
-| Addon                                              | Problem                                                    |
-| -------------------------------------------------- | ---------------------------------------------------------- |
-| Any addon that modifies ragdoll physics (Fedhoria) | Camera can't track the ragdoll, so it just stays in place. |
+| Addon                                                                     | Problem                                                    |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Any addon that modifies ragdoll physics (Fedhoria, Realism Ragdoll, etc.) | Camera can't track the ragdoll, so it just stays in place. |
 
 ## Planned Features
 
