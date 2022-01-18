@@ -75,7 +75,9 @@ local hinttablegeneric = {
 	"Don't die.",
 	'"Son, always remember - Dying is gay."',
 	"Dying is not encouraged by the healthy lifestyle.",
-	"Sometimes, I dream about cheese."
+	"Sometimes, I dream about cheese.",
+	"Just get good.",
+	"You're dead now. Simple as.",
 	
 }
 -- Place non-generic hints below. Can be a string, a table of strings, or a function which returns a string.
@@ -84,7 +86,9 @@ local hinttable = {
 	["npc_zombie"] = 	{
 						"Zombies are slow. Use that to your advantage to outmaneuver them.",
 						"Luring zombies out in the open can help you deal with them more easily.",
-						'"Aim for the head."'
+						"Aim for the head.",
+						"Sawblades are your friends."
+
 						},
 	["npc_fastzombie_torso"] = "Fast zombie torsos attack extremely fast, keep your distance.",
 	["npc_fastzombie"] = 	{
@@ -93,9 +97,13 @@ local hinttable = {
 							},
 	["npc_grenade_frag"] = 	{
 							"You have 2.5 seconds to run or hide after a grenade is thrown.",
-							"Hiding behind a solid wall will negate all explosion damage."
+							"Hiding behind a solid wall will negate all explosion damage.",
+							"Grenades can be thrown back at their throwers for a instant explosive kill."
 							},
-	["npc_headcrab"] = "One whack of a crowbar can instantly kill a headcrab.",
+	["npc_headcrab"] = 		{
+							"One whack of a crowbar can instantly kill a headcrab.",
+							"A headcrab is no match for a cinderblock.",
+							},
 	["player"] = function(dat) 
 		if dat.entindex_attacker == LocalPlayer():EntIndex() then
 			local suicidehints = {
