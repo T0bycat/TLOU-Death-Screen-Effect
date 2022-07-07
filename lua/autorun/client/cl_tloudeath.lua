@@ -2,7 +2,12 @@ local tloudeathblackout = CreateClientConVar("tloudeath_blackouttime", 0.9, true
 local tloudeathsound = CreateClientConVar("tloudeath_deathsound", "", true, false, "What sound to play on death")
 local tloudeathpp = CreateClientConVar("tloudeath_postprocess", 1, true, false, "Enable post processing effects?", 0, 1)
 local tloudeathdsp = CreateClientConVar("tloudeath_dsp", 1, true, false, "Enable sound DSP on blackout?", 0, 1)
+local tloudeathhints = CreateClientConVar("tloudeath_hints", 0, true, false, "Enable hints in death screen?", 0, 1)
+
+
 local gmlogo = Material("tloudeath/tloudeathlogo.png", "smooth")
+
+
 surface.CreateFont( "TLOUDEATH_HINTFONT", {
 	font = "DermaLarge",
 	extended = false,
@@ -70,25 +75,24 @@ For players, the inflictor should be their weapon, e.g. "weapon_smg1" will be re
 The hint used is determined by the inflictor, so use that when adding non-generic hints.
 Place generic hints below. A generic hint is displayed when the inflictor doesn't exist in the non-generic hinttable.
 --]]
+
 local hinttablegeneric = {
 	
 	"Don't die.",
 	'"Son, always remember - Dying is gay."',
 	"Dying is not encouraged by the healthy lifestyle.",
-	"Sometimes, I dream about cheese.",
-	"Just get good.",
-	"You're dead now. Simple as.",
+	"Sometimes, I dream about cheese."
 	
 }
+
 -- Place non-generic hints below. Can be a string, a table of strings, or a function which returns a string.
+
 local hinttable = {
 	
 	["npc_zombie"] = 	{
 						"Zombies are slow. Use that to your advantage to outmaneuver them.",
 						"Luring zombies out in the open can help you deal with them more easily.",
-						"Aim for the head.",
-						"Sawblades are your friends."
-
+						'"Aim for the head."'
 						},
 	["npc_fastzombie_torso"] = "Fast zombie torsos attack extremely fast, keep your distance.",
 	["npc_fastzombie"] = 	{
@@ -97,13 +101,9 @@ local hinttable = {
 							},
 	["npc_grenade_frag"] = 	{
 							"You have 2.5 seconds to run or hide after a grenade is thrown.",
-							"Hiding behind a solid wall will negate all explosion damage.",
-							"Grenades can be thrown back at their throwers for a instant explosive kill."
+							"Hiding behind a solid wall will negate all explosion damage."
 							},
-	["npc_headcrab"] = 		{
-							"One whack of a crowbar can instantly kill a headcrab.",
-							"A headcrab is no match for a cinderblock.",
-							},
+	["npc_headcrab"] = "One whack of a crowbar can instantly kill a headcrab.",
 	["player"] = function(dat) 
 		if dat.entindex_attacker == LocalPlayer():EntIndex() then
 			local suicidehints = {
@@ -228,13 +228,16 @@ hook.Add("entity_killed", "tloudeath_death", function(data)
 		local scrw, scrh, start = ScrW(), ScrH(), SysTime()
 		local alphalerp
 		
-		hook.Add("HUDPaint", "TLOUDEATH_HINTS", function()
+		if tloudeathhints:GetBool() then
+			hook.Add("HUDPaint", "TLOUDEATH_HINTS", function()
 			alphalerp = Lerp( math.Clamp(SysTime() - start, 0, 1), 0, 255 )
 			draw.SimpleText(selectedhint, "TLOUDEATH_HINTFONT", scrw * 0.16, scrh * 0.8, Color(255,255,255, alphalerp ))
 			surface.SetMaterial(gmlogo)
 			surface.SetDrawColor(Color(255,255,255, alphalerp ))
-			surface.DrawTexturedRect(scrw * 0.12, scrh * 0.8, scrw * 0.03, scrw * 0.03)
-		end)
+			surface.DrawTexturedRect(scrw * 0.12, scrh * 0.8, scrw * 0.03, scrw * 0.03)			
+			end)
+		end
+		
 	end)
 	
 	if tloudeathsound:GetString() == "" or not tloudeathsound:GetString() then
