@@ -92,7 +92,8 @@ local hinttable = {
 	["npc_zombie"] = 	{
 						"Zombies are slow. Use that to your advantage to outmaneuver them.",
 						"Luring zombies out in the open can help you deal with them more easily.",
-						'"Aim for the head."'
+						"Aim for the head.",
+						"No ammo? Opt for sawblades."
 						},
 	["npc_fastzombie_torso"] = "Fast zombie torsos attack extremely fast, keep your distance.",
 	["npc_fastzombie"] = 	{
@@ -101,14 +102,18 @@ local hinttable = {
 							},
 	["npc_grenade_frag"] = 	{
 							"You have 2.5 seconds to run or hide after a grenade is thrown.",
-							"Hiding behind a solid wall will negate all explosion damage."
+							"Hiding behind a solid wall will negate all explosion damage.",
+							"Try throwing grenades back for a quick kill."
 							},
-	["npc_headcrab"] = "One whack of a crowbar can instantly kill a headcrab.",
+	["npc_headcrab"] = {
+							"One whack of a crowbar can instantly kill a headcrab.",
+							"No crowbar? No guns? Try a cinder block."
+						},
+		
 	["player"] = function(dat) 
 		if dat.entindex_attacker == LocalPlayer():EntIndex() then
 			local suicidehints = {
 				"Did you kill yourself?",
-				"Bind "..input.LookupBinding("kill", true).." to kill, huh? Not what I'd have picked.",
 				"Contact your local killbind prevention hotline. We're here to help.",
 				LocalPlayer():Nick().." took the easy way out."
 			}
@@ -146,7 +151,8 @@ local hinttable = {
 						"If you hear the Strider's cannon winding up, run.",
 						"Striders can be killed with explosives or AR2 balls."
 						},
-	["npc_metropolice"] = "You failed to pick up the can."
+	["npc_metropolice"] = "You failed to pick up the can.",
+	["prop_combine_ball"] = "AR2 balls can be thrown back with the Gravity Gun"
 }
 
 gameevent.Listen( "entity_killed" )
