@@ -3,15 +3,16 @@ local tloudeathsound = CreateClientConVar("tloudeath_deathsound", "", true, fals
 local tloudeathpp = CreateClientConVar("tloudeath_postprocess", 1, true, false, "Enable post processing effects?", 0, 1)
 local tloudeathdsp = CreateClientConVar("tloudeath_dsp", 1, true, false, "Enable sound DSP on blackout?", 0, 1)
 local tloudeathhints = CreateClientConVar("tloudeath_hints", 0, true, false, "Enable hints in death screen?", 0, 1)
+local tloudeathhintsmode = CreateClientConVar("tloudeath_hints_mode",  1, true, false, "What kind of hints should be shown? (1 = TLOU1, 2 = TLOU2 (Awful, Unfinished)", 1, 2)
 
 
 local gmlogo = Material("tloudeath/tloudeathlogo.png", "smooth")
 
 
 surface.CreateFont( "TLOUDEATH_HINTFONT", {
-	font = "DermaLarge",
+	font = "D-DIN",
 	extended = false,
-	size = ScrW() * 0.03,
+	size = ScrW() * 0.02,
 	weight = 500,
 	blursize = 0,
 	scanlines = 0,
@@ -28,9 +29,9 @@ surface.CreateFont( "TLOUDEATH_HINTFONT", {
 
 hook.Add( "OnScreenSizeChanged", "TLOUDEATH_RESCHANGETEXTFIX", function( oldWidth, oldHeight ) -- Recreate the font if the resolution changes so it's scaled properly.
 	surface.CreateFont( "TLOUDEATH_HINTFONT", {
-	font = "DermaLarge",
+	font = "D-DIN",
 	extended = false,
-	size = ScrW() * 0.03,
+	size = ScrW() * 0.02,
 	weight = 500,
 	blursize = 0,
 	scanlines = 0,
@@ -140,7 +141,8 @@ local hinttable = {
 						},
 	["npc_rollermine"] = 	{
 							"Rollermines can be killed by explosives or water.",
-							"Rollermines can stick to your car. Get them off with your Gravity Gun."
+							"Rollermines can stick to your car. Get them off with your Gravity Gun.",
+							"braydon"
 							},
 	["npc_helicopter"] = 	{
 							"The helicopter only shoots in bursts, telegraphed by an audible windup.",
@@ -155,12 +157,28 @@ local hinttable = {
 	["prop_combine_ball"] = "AR2 balls can be thrown back with the Gravity Gun"
 }
 
+local imgtablegeneric = {
+
+	"tloudeath/tlou2death1.png",
+
+}
+
+local imgtable = {
+
+	["npc_helicopter"] = 'tloudeath/tlou2helicopter.png',
+	["npc_metropolice"] = 'tloudeath/tlou2metrocop.png',
+	["npc_rollermine"] = 'tloudeath/tlou2rollermine.png',
+	["prop_combine_ball"] = 'tloudeath/tlou2comball.png'
+
+}
+
 gameevent.Listen( "entity_killed" )
 hook.Add("entity_killed", "tloudeath_death", function(data)
 	if data.entindex_killed == LocalPlayer():EntIndex() then
 	local ply = LocalPlayer()
 	-- Uncomment to print attacker and inflictor class to console when killed.
 	--print(Entity(data.entindex_attacker), Entity(data.entindex_inflictor):GetClass())
+
 	local selectedhint
 					
 	if !IsValid(Entity(data.entindex_inflictor)) or not hinttable[Entity(data.entindex_inflictor):GetClass()] then
@@ -175,7 +193,22 @@ hook.Add("entity_killed", "tloudeath_death", function(data)
 			selectedhint = hintsforent(data)
 		end
 	end
-			
+
+	local selectedimg
+
+	if !IsValid(Entity(data.entindex_inflictor)) or not hinttable[Entity(data.entindex_inflictor):GetClass()] then
+		selectedimg = imgtablegeneric[math.random(#imgtablegeneric)]
+	else
+		local imgforent = imgtable[Entity(data.entindex_inflictor):GetClass()]
+		if type(imgforent) == "string" then
+			selectedimg = imgforent
+		elseif type(imgforent) == "table" then
+			selectedimg = (imgforent[math.random(#imgforent)])
+		elseif type(imgforent) == "function" then
+			selectedimg = imgforent(data)
+		end
+	end
+
 	local randrot = math.Rand(-10,10)
 	local lastposfallback = ply:GetPos()
 	ply:SetDSP(16)
@@ -234,13 +267,24 @@ hook.Add("entity_killed", "tloudeath_death", function(data)
 		local scrw, scrh, start = ScrW(), ScrH(), SysTime()
 		local alphalerp
 		
+		if selectedimg ~= nil then
+			pickedimg = Material(selectedimg, "smooth")
+		else
+			pickedimg = Material(imgtablegeneric[math.random(#imgtablegeneric)], "smooth")
+		end
+
+
 		if tloudeathhints:GetBool() then
 			hook.Add("HUDPaint", "TLOUDEATH_HINTS", function()
 			alphalerp = Lerp( math.Clamp(SysTime() - start, 0, 1), 0, 255 )
-			draw.SimpleText(selectedhint, "TLOUDEATH_HINTFONT", scrw * 0.16, scrh * 0.8, Color(255,255,255, alphalerp ))
-			surface.SetMaterial(gmlogo)
-			surface.SetDrawColor(Color(255,255,255, alphalerp ))
-			surface.DrawTexturedRect(scrw * 0.12, scrh * 0.8, scrw * 0.03, scrw * 0.03)			
+			if (tloudeathhintsmode:GetInt() == 2) then
+				draw.SimpleText(selectedhint, "TLOUDEATH_HINTFONT", scrw * 0.50, scrh * 0.55, Color(255,255,255, alphalerp ), TEXT_ALIGN_CENTER)
+				surface.SetDrawColor(Color(255,255,255, alphalerp ))
+				surface.SetMaterial(pickedimg)
+				surface.DrawTexturedRect(scrw * 0.38, scrh * 0.15, scrw * 0.2, scrw * 0.2)
+			else
+				draw.SimpleText(selectedhint, "TLOUDEATH_HINTFONT", scrw * 0.13, scrh * 0.8, Color(255,255,255, alphalerp))
+			end
 			end)
 		end
 		
