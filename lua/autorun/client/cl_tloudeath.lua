@@ -118,6 +118,10 @@ local hinttable = {
 				"Contact your local killbind prevention hotline. We're here to help.",
 				LocalPlayer():Nick().." took the easy way out."
 			}
+			local killbind = input.LookupBinding("kill", true)
+			if killbind then
+				table.insert(suicidehints, "Bind "..killbind.." to kill, huh? Not what I'd have picked.",)	
+			end
 			return suicidehints[math.random(#suicidehints)]
 		else
 			return hinttablegeneric[math.random(#hinttablegeneric)]
