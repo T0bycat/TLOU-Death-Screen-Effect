@@ -120,7 +120,7 @@ local hinttable = {
 			}
 			local killbind = input.LookupBinding("kill", true)
 			if killbind then
-				table.insert(suicidehints, "Bind "..killbind.." to kill, huh? Not what I'd have picked.",)	
+				table.insert(suicidehints, "Bind "..killbind.." to kill, huh? Not what I'd have picked.")	
 			end
 			return suicidehints[math.random(#suicidehints)]
 		else
