@@ -311,3 +311,8 @@ hook.Add( "player_spawn", "tloudeath_respawn", function( data )
 	hook.Remove("HUDPaint", "TLOUDEATH_HINTS")
 	timer.Stop("TLOUDEATH_BLACKOUTTIMER")
 end )
+
+
+hook.Add("AddToolMenuCategories", "CustomCategory", function()
+	spawnmenu.AddToolCategory("Options", "tlou-deathscreen-config", "#TLOU Death Screen")
+end )
