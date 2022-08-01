@@ -1,3 +1,4 @@
+local tloudeathenabled = CreateClientConVar("tloudeath_enabled", 1, true, false, "Enable the death screen?", 0, 1)
 local tloudeathblackout = CreateClientConVar("tloudeath_blackouttime", 0.9, true, false, "How much time before the screen blacks out after dying", 0, 100)
 local tloudeathsound = CreateClientConVar("tloudeath_deathsound", "", true, false, "What sound to play on death")
 local tloudeathpp = CreateClientConVar("tloudeath_postprocess", 1, true, false, "Enable post processing effects?", 0, 1)
@@ -178,7 +179,7 @@ local imgtable = {
 
 gameevent.Listen( "entity_killed" )
 hook.Add("entity_killed", "tloudeath_death", function(data)
-	if data.entindex_killed == LocalPlayer():EntIndex() then
+	if data.entindex_killed == LocalPlayer():EntIndex() and tloudeathenabled:GetBool() then
 	local ply = LocalPlayer()
 	-- Uncomment to print attacker and inflictor class to console when killed.
 	--print(Entity(data.entindex_attacker), Entity(data.entindex_inflictor):GetClass())
@@ -321,6 +322,8 @@ end )
 hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
 	spawnmenu.AddToolMenuOption( "Options", "tlou_deathscreen_config", "deathscreen_general", "#General", "", "", function( dform )
 		dform:ClearControls()
+		dform:CheckBox("Enable?", "tloudeath_enabled")
+		dform:ControlHelp("Enable the death screen?")
 		dform:NumSlider( "Blackout delay", "tloudeath_blackouttime", 0, 1 )
 		dform:ControlHelp("How much time before the screen blacks out after dying.")
 		dform:CheckBox("Enable DSP?", "tloudeath_dsp")
